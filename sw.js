@@ -1,21 +1,16 @@
 // sw.js — Service Worker
 
-const CACHE_NAME = 'gym-tracker-v3';
+const CACHE_NAME = 'gym-tracker-v5';
+
+// Only cache CDN libs and fonts — local JS/HTML always fetched fresh so updates land immediately
 const SHELL_ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './app.js',
-  './db.js',
-  './exercises.js',
-  './chart-config.js',
-  './manifest.json',
   'https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap',
   'https://cdn.jsdelivr.net/npm/chart.js',
+  'https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3',
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
 ];
 
-// ── Install: cache app shell ──────────────────────────────────────────────────
+// ── Install ───────────────────────────────────────────────────────────────────
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -38,19 +33,20 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Supabase API → network-first, fallback to cache
+  // Supabase API → network-first
   if (url.hostname.endsWith('supabase.co')) {
     event.respondWith(networkFirst(event.request));
     return;
   }
 
-  // Google OAuth redirects → always network
-  if (url.hostname.includes('accounts.google.com') || url.hostname.includes('supabase.co/auth')) {
-    return; // let browser handle
+  // CDN libs → cache-first
+  if (url.hostname.includes('jsdelivr.net') || url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
+    event.respondWith(cacheFirst(event.request));
+    return;
   }
 
-  // App shell → cache-first
-  event.respondWith(cacheFirst(event.request));
+  // Local app files → always network (so updates land immediately)
+  event.respondWith(networkFirst(event.request));
 });
 
 async function cacheFirst(request) {
