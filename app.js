@@ -720,29 +720,30 @@ function circleIcon() {
 // ── Boot ─────────────────────────────────────────────────────────────────────
 
 async function boot() {
-  initSupabase();
-
-  window.addEventListener('online', () => {
-    AppState.isOnline = true;
-    updateOfflineIndicator();
-    flushQueue();
-  });
-  window.addEventListener('offline', () => {
-    AppState.isOnline = false;
-    updateOfflineIndicator();
-  });
-
-  wireUI();
-
+  const lbl = document.getElementById('current-session-label');
   try {
-    AppState.sessions = await fetchRecentSessions(30);
-  } catch (e) {
-    AppState.sessions = [];
-    if (!AppState.isOnline) showToast('Offline — showing cached data', 'warn');
-  }
+    lbl.textContent = 'Starting…';
+    initSupabase();
 
-  renderApp();
-  flushQueue();
+    lbl.textContent = 'Connecting…';
+    window.addEventListener('online', () => { AppState.isOnline = true; updateOfflineIndicator(); flushQueue(); });
+    window.addEventListener('offline', () => { AppState.isOnline = false; updateOfflineIndicator(); });
+
+    wireUI();
+
+    try {
+      AppState.sessions = await fetchRecentSessions(30);
+    } catch (e) {
+      AppState.sessions = [];
+      if (!AppState.isOnline) showToast('Offline — showing cached data', 'warn');
+    }
+
+    renderApp();
+    flushQueue();
+  } catch (e) {
+    lbl.textContent = 'Boot error: ' + e.message;
+    console.error(e);
+  }
 }
 
 // ── UI Wiring ─────────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 // sw.js — Service Worker
 
-const CACHE_NAME = 'gym-tracker-v1';
+const CACHE_NAME = 'gym-tracker-v3';
 const SHELL_ASSETS = [
   './',
   './index.html',
