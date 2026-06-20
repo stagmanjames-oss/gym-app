@@ -422,6 +422,30 @@ main {
   letter-spacing: 0.04em;
 }
 
+/* Tips */
+.exercise-tips {
+  padding: 8px 16px 6px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exercise-tip {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding-left: 10px;
+  position: relative;
+}
+
+.exercise-tip::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--accent-dim);
+}
+
 /* Sets Container */
 .sets-container {
   padding: 4px 0;
@@ -465,6 +489,16 @@ main {
   text-transform: uppercase;
   width: 36px;
   flex-shrink: 0;
+}
+
+/* Warm-up rows */
+.warmup-row {
+  opacity: 0.6;
+  background: rgba(201, 168, 76, 0.02);
+}
+
+.warmup-label {
+  color: var(--accent-dim) !important;
 }
 
 .set-inputs {

@@ -1,5 +1,6 @@
 // Exercise Library
-// Each exercise: id, name, muscles, sets, reps, defaultWeight, defaultReps, bodyweight, location, type
+// warmupSets: number of warm-up sets shown before working sets
+// tips: 1-2 hypertrophy cues shown on the card
 
 const EXERCISES = [
 
@@ -15,6 +16,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 2,
+    tips: [
+      'Control the descent over 3 seconds — the negative builds the most muscle.',
+      'Touch chest lightly; don\'t bounce. Pause 1 second for extra stimulus.',
+    ],
   },
   {
     id: 'incline-db-press',
@@ -27,6 +33,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Keep elbows at 60–75° from torso — flaring wide stresses the shoulder.',
+      'Don\'t lock out at the top; keep tension on the chest throughout.',
+    ],
   },
   {
     id: 'ohp',
@@ -39,6 +50,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 2,
+    tips: [
+      'Brace your core as if about to be punched — prevents lower-back arch.',
+      'Elbows slightly forward of the bar, not flared, to protect the rotator cuff.',
+    ],
   },
   {
     id: 'lateral-raises',
@@ -51,6 +67,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Lead with the elbow, not the hand — think "pouring a jug" at the top.',
+      'A slight forward lean (10–15°) keeps tension on the mid-delt all the way up.',
+    ],
   },
   {
     id: 'cable-fly',
@@ -63,6 +84,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Think "hugging a tree" — the movement is from the shoulder, not the elbow.',
+      'Pause and squeeze for 1 second at peak contraction every rep.',
+    ],
   },
   {
     id: 'tricep-pushdown',
@@ -75,6 +101,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Keep elbows pinned to your sides — they\'re the pivot point, not the shoulder.',
+      'Fully extend to lockout — the last few degrees are where triceps fire hardest.',
+    ],
   },
   {
     id: 'overhead-tricep-ext',
@@ -87,8 +118,12 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Keep elbows pointing forward — don\'t let them flare wide.',
+      'The stretch at the bottom is where long-head growth happens — don\'t rush it.',
+    ],
   },
-
   {
     id: 'cable-lateral-raises',
     name: 'Cable Lateral Raises',
@@ -100,6 +135,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Cable from behind the hip gives constant tension unlike dumbbells.',
+      'Slow controlled reps — no momentum. If you\'re swinging, drop the weight.',
+    ],
   },
   {
     id: 'cable-overhead-tricep-ext',
@@ -112,6 +152,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Cable keeps tension through the full stretch — superior to dumbbell version.',
+      'Take 2–3 seconds on the way down to maximise time under tension.',
+    ],
   },
   {
     id: 'tricep-dips-gym',
@@ -124,6 +169,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Stay upright to target triceps; lean forward to shift load to lower chest.',
+      'Don\'t go past 90° at the elbow — deeper range stresses the shoulder joint.',
+    ],
   },
   {
     id: 'hang-push-gym',
@@ -136,6 +186,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'gym',
     type: 'push',
+    warmupSets: 0,
+    tips: [
+      'Relax your traps and let the shoulders fully decompress — passive hang.',
+      'Progress from 20s to 60s+ holds over weeks for genuine mobility gains.',
+    ],
   },
 
   // ── PUSH — HOME ─────────────────────────────────────────────────────────────
@@ -150,6 +205,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Maintain a rigid plank — hips neither sagging nor piking.',
+      'Full depth: chest an inch from the floor every rep.',
+    ],
   },
   {
     id: 'wide-push-ups',
@@ -162,6 +222,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Hands 1.5× shoulder width — shifts emphasis to the outer chest.',
+      'Take 3 seconds on the way down to increase time under tension.',
+    ],
   },
   {
     id: 'diamond-push-ups',
@@ -174,6 +239,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'If form breaks down, switch to close-grip (hands slightly narrower than shoulders).',
+      'Keep core braced — this variation makes hip sagging more likely.',
+    ],
   },
   {
     id: 'pike-push-ups',
@@ -186,6 +256,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'The more vertical your torso, the more shoulder work — walk feet in close.',
+      'Lower your head to just in front of your hands, not straight down.',
+    ],
   },
   {
     id: 'decline-push-ups',
@@ -198,6 +273,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Feet higher = more upper chest activation. Aim for chair or sofa height.',
+      'Control the descent — don\'t drop. 2–3 second negatives.',
+    ],
   },
   {
     id: 'tricep-dips',
@@ -210,6 +290,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 1,
+    tips: [
+      'Hands behind you, fingers forward — lower slowly until upper arms are parallel.',
+      'Keep your back close to the chair; drifting forward shifts load off triceps.',
+    ],
   },
   {
     id: 'hang-push-home',
@@ -222,6 +307,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'push',
+    warmupSets: 0,
+    tips: [
+      'Use a door-frame pull-up bar or sturdy beam — ensure it\'s weight-rated.',
+      'Alternate overhand and underhand grip across sets to train grip evenly.',
+    ],
   },
 
   // ── PULL — GYM ──────────────────────────────────────────────────────────────
@@ -236,6 +326,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 2,
+    tips: [
+      'Start from a dead hang — no kipping. Full range builds full lats.',
+      'Think "elbows to hips" not "hands to chin" — keeps the lats driving.',
+    ],
   },
   {
     id: 'barbell-row',
@@ -248,6 +343,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 2,
+    tips: [
+      'Hinge to ~45°, brace hard before every single rep.',
+      'Pull to your lower chest / upper abdomen — not the belly. Elbows stay close.',
+    ],
   },
   {
     id: 'seated-cable-row',
@@ -260,6 +360,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Full stretch at the front — let your shoulder blades protract fully between reps.',
+      'Row to lower sternum and pause 1 second, squeezing shoulder blades together.',
+    ],
   },
   {
     id: 'lat-pulldown',
@@ -272,6 +377,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Slight back lean (15°) and pull to upper chest — never behind the neck.',
+      'Initiate by depressing the shoulder blades, not by bending the elbows.',
+    ],
   },
   {
     id: 'face-pulls',
@@ -284,6 +394,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Rope ends should finish beside your ears — external rotation is the key movement.',
+      'Go light and feel the rear delt contract — this isn\'t a strength exercise.',
+    ],
   },
   {
     id: 'db-curl',
@@ -296,6 +411,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Supinate (rotate palm up) as you curl — the twist is what peaks the bicep.',
+      'No swinging. Brace your upper arm against your torso or a wall if needed.',
+    ],
   },
   {
     id: 'hammer-curl',
@@ -308,6 +428,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Targets the brachialis — the muscle underneath the bicep that makes the arm look thicker.',
+      'Keep the wrist neutral throughout; don\'t flex or extend it.',
+    ],
   },
   {
     id: 'cable-crunch',
@@ -320,6 +445,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Round your spine — this is a crunch, not a hip hinge. Hips stay still.',
+      'Exhale fully at the bottom of each rep for max abdominal contraction.',
+    ],
   },
   {
     id: 'cable-bicep-curl',
@@ -332,6 +462,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Pin elbows to your sides — they\'re the fixed pivot point.',
+      'Pause 1 second at the top with full supination for peak contraction.',
+    ],
   },
   {
     id: 'prone-rows',
@@ -344,6 +479,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Chest stays on the pad throughout — this isolates the back, not the legs.',
+      'Lead with the elbows, not the hands, to target the mid-back and rear delt.',
+    ],
   },
   {
     id: 'pull-ups-gym',
@@ -356,6 +496,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'gym',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Dead hang start every rep — partial range builds partial lats.',
+      'Take 3 seconds to lower — the negative is where most hypertrophy happens.',
+    ],
   },
   {
     id: 'hang-pull-gym',
@@ -368,6 +513,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'gym',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Pack your scapulae slightly — don\'t fully "hang out" or you\'ll impinge.',
+      'Builds the tendon and grip strength that carries over to weighted pull-ups.',
+    ],
   },
 
   // ── PULL — HOME ─────────────────────────────────────────────────────────────
@@ -382,6 +532,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Full dead hang at the bottom — resist the urge to kip or swing.',
+      'Think "elbows to hips" not "chin to bar" — lats do the work.',
+    ],
   },
   {
     id: 'table-rows',
@@ -394,6 +549,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'More horizontal body angle = harder. Feet further out increases difficulty.',
+      'Pause at top and squeeze shoulder blades together for 1 second.',
+    ],
   },
   {
     id: 'reverse-snow-angels',
@@ -406,6 +566,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Keep arms straight and off the floor throughout the entire movement.',
+      'Slow and controlled — 3 seconds each direction for maximum rear delt tension.',
+    ],
   },
   {
     id: 'superman-hold',
@@ -418,6 +583,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Squeeze your glutes at the top — it protects the lower back from overextension.',
+      'Hold 2 full seconds at the top; don\'t just bounce up and down.',
+    ],
   },
   {
     id: 'chin-ups',
@@ -430,6 +600,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 1,
+    tips: [
+      'Underhand grip shifts more tension onto the biceps vs overhand pull-ups.',
+      'Full ROM — dead hang to chin above bar. Partial reps mean partial gains.',
+    ],
   },
   {
     id: 'towel-curl',
@@ -442,6 +617,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Pull the towel as hard as possible against your foot — max tension = max stimulus.',
+      'Slow the release phase to keep tension on the bicep throughout.',
+    ],
   },
   {
     id: 'ab-crunches',
@@ -454,6 +634,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Hands behind ears lightly — don\'t pull on your neck.',
+      'Exhale sharply as you curl up; inhale on the way back down.',
+    ],
   },
   {
     id: 'leg-raises',
@@ -466,6 +651,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Press your lower back firmly into the floor throughout every rep.',
+      'Control the lower — the descent under tension is what builds the abs.',
+    ],
   },
   {
     id: 'hang-pull-home',
@@ -478,6 +668,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'pull',
+    warmupSets: 0,
+    tips: [
+      'Use a doorframe bar rated for your bodyweight — test it before hanging.',
+      'Alternate overhand and underhand grip each set for balanced grip development.',
+    ],
   },
 
   // ── LEGS — GYM ──────────────────────────────────────────────────────────────
@@ -492,6 +687,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 2,
+    tips: [
+      'Break at hips and knees simultaneously — not hips first (good morning squat).',
+      'Drive knees out over toes throughout; cue "spread the floor" with your feet.',
+    ],
   },
   {
     id: 'rdl',
@@ -504,6 +704,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 2,
+    tips: [
+      'Push the hips back — not down. Feel the hamstring stretch before you reverse.',
+      'Bar stays dragging close to the legs all the way down — protects the lower back.',
+    ],
   },
   {
     id: 'leg-press',
@@ -516,6 +721,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Higher foot placement hits more glute and hamstring; lower targets quads more.',
+      'Don\'t lock out the knees at the top — keep tension on the muscle.',
+    ],
   },
   {
     id: 'leg-curl',
@@ -528,6 +738,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Pause and squeeze hard at the top of each rep — hamstrings need the contraction.',
+      'Point toes slightly inward to emphasise the bicep femoris (outer hamstring).',
+    ],
   },
   {
     id: 'walking-lunges',
@@ -540,6 +755,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Front shin stays vertical at the bottom — step long enough to achieve this.',
+      'Rear knee hovers just above the floor for full range; don\'t let it crash down.',
+    ],
   },
   {
     id: 'calf-raise',
@@ -552,6 +772,11 @@ const EXERCISES = [
     bodyweight: false,
     location: 'gym',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Full stretch at the bottom — heel well below the platform edge.',
+      'Pause at the top and squeeze before lowering. Slow 3-second descents.',
+    ],
   },
 
   // ── LEGS — HOME ─────────────────────────────────────────────────────────────
@@ -566,6 +791,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Sit back and down — imagine a chair behind you. Don\'t let knees cave in.',
+      'Pause 1 second at the bottom to eliminate the bounce and increase difficulty.',
+    ],
   },
   {
     id: 'bulgarian-split-squat',
@@ -578,6 +808,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Torso upright = more quad. Lean forward slightly = more glute.',
+      'Most weight through the front heel — don\'t let the knee track past the toes.',
+    ],
   },
   {
     id: 'reverse-lunges',
@@ -590,6 +825,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Step back far enough that the front knee stays directly over the ankle.',
+      'Control the descent — don\'t let the rear knee crash to the floor.',
+    ],
   },
   {
     id: 'glute-bridges',
@@ -602,6 +842,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 0,
+    tips: [
+      'Drive through the heels, not the toes — if your calves cramp, feet are too close.',
+      'Squeeze hard at the top; don\'t hyperextend the lower back.',
+    ],
   },
   {
     id: 'single-leg-glute-bridge',
@@ -614,6 +859,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 0,
+    tips: [
+      'Keep hips level — don\'t let the non-working side drop.',
+      'Extended leg stays straight and lifted, not resting on the floor.',
+    ],
   },
   {
     id: 'nordic-curl',
@@ -626,6 +876,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'The hardest movement in this programme — use a wall to push off if needed.',
+      'The lowering phase is the stimulus; lower as slowly as possible on each rep.',
+    ],
   },
   {
     id: 'single-leg-calf-raise',
@@ -638,6 +893,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Use the wall for balance only — don\'t push off or lean on it.',
+      'Full range: heel below step edge at bottom, maximum rise at top. Pause and squeeze.',
+    ],
   },
   {
     id: 'jump-squats',
@@ -650,6 +910,11 @@ const EXERCISES = [
     bodyweight: true,
     location: 'home',
     type: 'legs',
+    warmupSets: 1,
+    tips: [
+      'Land softly — absorb through ankles, knees and hips to protect joints.',
+      'Explode from the bottom of the squat position for maximum power output.',
+    ],
   },
 ];
 

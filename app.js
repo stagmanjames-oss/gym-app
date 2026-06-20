@@ -335,6 +335,19 @@ function buildExerciseCard(exercise) {
   header.appendChild(meta);
   card.appendChild(header);
 
+  // ── Tips
+  if (exercise.tips && exercise.tips.length > 0) {
+    const tipsEl = document.createElement('div');
+    tipsEl.className = 'exercise-tips';
+    exercise.tips.forEach(tip => {
+      const p = document.createElement('p');
+      p.className = 'exercise-tip';
+      p.textContent = tip;
+      tipsEl.appendChild(p);
+    });
+    card.appendChild(tipsEl);
+  }
+
   if (allDone) {
     // Collapsed complete state
     const doneRow = document.createElement('div');
@@ -342,10 +355,22 @@ function buildExerciseCard(exercise) {
     doneRow.innerHTML = `<span class="done-check">${exercise.sets}/${exercise.sets}</span><span class="done-label">Complete</span>`;
     card.appendChild(doneRow);
   } else {
-    // ── Set Rows
     const setsContainer = document.createElement('div');
     setsContainer.className = 'sets-container';
 
+    // ── Warm-up rows
+    const warmupCount = exercise.warmupSets || 0;
+    if (warmupCount > 0) {
+      const workingSuggestion = getWeightSuggestion(exercise.id, 1, AppState.sessions);
+      const workingWeight = workingSuggestion ? workingSuggestion.weight : exercise.defaultWeight;
+      const workingReps = workingSuggestion ? workingSuggestion.reps : exercise.defaultReps;
+
+      for (let w = 1; w <= warmupCount; w++) {
+        setsContainer.appendChild(buildWarmupSetRow(exercise, w, warmupCount, workingWeight, workingReps));
+      }
+    }
+
+    // ── Working set rows
     for (let i = 1; i <= exercise.sets; i++) {
       setsContainer.appendChild(buildSetRow(exercise, i, loggedSets[i] || null));
     }
@@ -376,6 +401,88 @@ function buildExerciseCard(exercise) {
   card.appendChild(footer);
 
   return card;
+}
+
+function buildWarmupSetRow(exercise, warmupNumber, totalWarmups, workingWeight, workingReps) {
+  const row = document.createElement('div');
+  row.className = 'set-row warmup-row';
+
+  const label = document.createElement('span');
+  label.className = 'set-label warmup-label';
+  label.textContent = `WU ${warmupNumber}`;
+
+  const inputs = document.createElement('div');
+  inputs.className = 'set-inputs';
+
+  // Suggest percentage of working weight: 40% for first warmup, 65% for second
+  const pct = totalWarmups === 1 ? 0.5 : (warmupNumber === 1 ? 0.4 : 0.65);
+
+  const repsInput = document.createElement('input');
+  repsInput.type = 'number';
+  repsInput.inputMode = 'decimal';
+  repsInput.className = 'set-input reps-input';
+  repsInput.placeholder = 'reps';
+  repsInput.min = 0;
+  // Warmup reps: more reps at lighter weight
+  const warmupReps = warmupNumber === 1 ? 12 : 8;
+  repsInput.value = exercise.bodyweight
+    ? Math.max(3, Math.round((workingReps || exercise.defaultReps) * pct))
+    : warmupReps;
+
+  inputs.appendChild(repsInput);
+
+  if (!exercise.bodyweight) {
+    const times = document.createElement('span');
+    times.className = 'input-sep';
+    times.textContent = '×';
+
+    const weightInput = document.createElement('input');
+    weightInput.type = 'number';
+    weightInput.inputMode = 'decimal';
+    weightInput.className = 'set-input weight-input';
+    weightInput.placeholder = 'kg';
+    weightInput.step = '0.5';
+    weightInput.min = 0;
+
+    // Round to nearest 2.5kg
+    const rawWeight = (workingWeight || exercise.defaultWeight || 0) * pct;
+    weightInput.value = Math.round(rawWeight / 2.5) * 2.5 || '';
+
+    const kgLabel = document.createElement('span');
+    kgLabel.className = 'input-unit';
+    kgLabel.textContent = 'kg';
+
+    inputs.appendChild(times);
+    inputs.appendChild(weightInput);
+    inputs.appendChild(kgLabel);
+  } else {
+    const repsLabel = document.createElement('span');
+    repsLabel.className = 'input-unit';
+    repsLabel.textContent = 'reps';
+    inputs.appendChild(repsLabel);
+  }
+
+  // Simple tick — visual only, not logged to DB
+  const tickBtn = document.createElement('button');
+  tickBtn.className = 'tick-btn warmup-tick';
+  tickBtn.innerHTML = circleIcon();
+  tickBtn.setAttribute('aria-label', 'Mark warm-up done');
+  tickBtn.addEventListener('click', () => {
+    tickBtn.innerHTML = checkIcon();
+    tickBtn.classList.add('ticked');
+    tickBtn.disabled = true;
+    row.classList.add('set-done');
+    repsInput.disabled = true;
+    const wi = row.querySelector('.weight-input');
+    if (wi) wi.disabled = true;
+    row.classList.add('flash');
+    setTimeout(() => row.classList.remove('flash'), 600);
+  });
+
+  row.appendChild(label);
+  row.appendChild(inputs);
+  row.appendChild(tickBtn);
+  return row;
 }
 
 function buildSetRow(exercise, setNumber, logged) {
