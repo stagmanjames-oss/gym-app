@@ -177,10 +177,17 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Set rest date text
     document.getElementById('rest-date').textContent = new Date().toLocaleDateString('en-GB', {
       weekday: 'long', day: 'numeric', month: 'long'
     });
+  });
+
+  // Catch any unhandled errors and display them visibly
+  window.addEventListener('error', e => {
+    document.getElementById('current-session-label').textContent = 'Error: ' + e.message;
+  });
+  window.addEventListener('unhandledrejection', e => {
+    document.getElementById('current-session-label').textContent = 'Error: ' + (e.reason?.message || e.reason);
   });
 </script>
 
