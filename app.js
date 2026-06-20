@@ -261,7 +261,7 @@ async function startSession() {
         completed: false,
       };
     } else {
-      showToast('Failed to start session. Please try again.', 'error');
+      showToast('Error: ' + (e.message || e.code || JSON.stringify(e)), 'error');
       return;
     }
   }
