@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Personal gym workout tracker — push, pull, legs." />
+  <meta name="theme-color" content="#0D0F12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Gym" />
+
+  <title>Gym Tracker</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- CDN Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- App config & data (config.js excluded from git) -->
+  <script src="config.js"></script>
+  <script src="exercises.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ── App Screen ──────────────────────────────────────────────────────────── -->
+<div id="app-screen">
+
+  <!-- Offline Banner -->
+  <div id="offline-indicator">Offline — data may not be current</div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="app-name">Gym</span>
+      <span id="current-session-label">Loading…</span>
+    </div>
+    <div class="header-right">
+      <div class="location-toggle" role="group" aria-label="Training location">
+        <button class="location-btn active" data-location="gym">Gym</button>
+        <button class="location-btn" data-location="home">Home</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="app-wrap">
+    <main>
+
+      <!-- Date Heading -->
+      <h1 id="date-heading" class="date-heading"></h1>
+
+      <!-- ── Session Picker ──────────────────────────────────────────────── -->
+      <section id="session-picker" class="hidden">
+        <p class="picker-label">Today's Session</p>
+
+        <div class="type-selector" role="group" aria-label="Session type">
+          <button class="type-btn" data-type="push">Push</button>
+          <button class="type-btn" data-type="pull">Pull</button>
+          <button class="type-btn" data-type="legs">Legs</button>
+          <button class="type-btn" data-type="rest">Rest</button>
+        </div>
+
+        <!-- Exercise preview list -->
+        <div id="picker-exercises" class="picker-exercises-preview">
+          <p class="picker-label">Exercises</p>
+          <ul class="picker-ex-list" id="picker-ex-list"></ul>
+        </div>
+
+        <!-- Rest selected -->
+        <div id="picker-rest" class="hidden" style="margin-bottom:24px;">
+          <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+            Rest day selected. Your body builds muscle when you recover — this is part of the programme.
+          </p>
+        </div>
+
+        <button id="start-session-btn" class="start-btn">Begin Session</button>
+      </section>
+
+      <!-- ── Workout View ────────────────────────────────────────────────── -->
+      <section id="workout-view" class="hidden">
+        <div class="workout-view-header">
+          <span class="picker-label" style="margin:0">Exercises</span>
+        </div>
+        <div id="exercise-cards"></div>
+      </section>
+
+      <!-- ── Rest Screen ─────────────────────────────────────────────────── -->
+      <section id="rest-screen" class="hidden">
+        <p class="rest-word">Rest.</p>
+        <p class="rest-date" id="rest-date"></p>
+        <button id="train-anyway-btn" class="train-anyway-btn">Train anyway →</button>
+      </section>
+
+      <!-- ── Session Summary ─────────────────────────────────────────────── -->
+      <section id="session-summary" class="hidden">
+        <div class="summary-header">
+          <h2 class="summary-title">Session Complete</h2>
+          <div class="summary-meta">
+            <span id="summary-type"></span>
+            <span id="summary-exercises"></span>
+            <span id="summary-volume"></span>
+          </div>
+        </div>
+
+        <p class="summary-section-title">New PRs</p>
+        <ul class="summary-prs" id="summary-prs"></ul>
+
+        <button id="new-session-btn" class="new-session-btn">Start Next Session</button>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ── Finish Bar (sticky) ─────────────────────────────────────────────── -->
+  <div id="finish-bar">
+    <button id="finish-session-btn" class="finish-btn">Finish Session</button>
+  </div>
+
+</div><!-- /app-screen -->
+
+<!-- ── Progress Bottom Sheet ──────────────────────────────────────────────── -->
+<div id="sheet-overlay"></div>
+<div id="progress-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h3 id="sheet-title"></h3>
+    <button id="sheet-close" class="sheet-close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div id="chart-wrap"></div>
+</div>
+
+<!-- ── Confirm Modal ──────────────────────────────────────────────────────── -->
+<div id="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <h3 id="modal-title"></h3>
+    <p id="modal-message"></p>
+    <div class="modal-actions">
+      <button id="modal-cancel">Cancel</button>
+      <button id="modal-confirm">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ──────────────────────────────────────────────────────────────── -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- App scripts -->
+<script src="db.js"></script>
+<script src="chart-config.js"></script>
+<script src="app.js"></script>
+
+<script>
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(err => {
+        console.warn('SW registration failed:', err);
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set rest date text
+    document.getElementById('rest-date').textContent = new Date().toLocaleDateString('en-GB', {
+      weekday: 'long', day: 'numeric', month: 'long'
+    });
+  });
+</script>
+
+</body>
+</html>
